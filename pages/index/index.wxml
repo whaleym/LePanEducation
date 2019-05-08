@@ -1,0 +1,7 @@
+<!--index.wxml-->
+<view class="search">
+  <view class='search_arr'>
+    <icon class='searchicon' type='search'></icon>
+    <input disabled placeholder='请输入要搜索的商品'></input>
+  </view>
+</view>

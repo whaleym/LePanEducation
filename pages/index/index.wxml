@@ -2,6 +2,6 @@
 <view class="search">
   <view class='search_arr'>
     <icon class='searchicon' type='search'></icon>
-    <input disabled placeholder='请输入要搜索的商品'></input>
+    <input disabled placeholder='这里我已经更改了'></input>
   </view>
 </view>

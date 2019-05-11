@@ -21,11 +21,13 @@
 
 .img_swiper{
   width: 100%;
+  height: 500rpx;
   margin-top: 20rpx;
   text-align: center;
 }
 
 .img_swiper image{
   width: 95%;
-  border-radius: 50%;
+  height: 100%;
+  border-radius: 10rpx;
 }

@@ -19,15 +19,79 @@
   font-size: 15px;
 }
 
-.img_swiper{
+.swiper-img{
   width: 100%;
   height: 500rpx;
   margin-top: 20rpx;
   text-align: center;
 }
 
-.img_swiper image{
+.swiper-img image{
   width: 95%;
   height: 100%;
   border-radius: 10rpx;
+}
+
+.item-list {
+  margin-top: 20rpx;
+}
+
+.item-view {
+  width:46%;
+  height:300rpx;
+  margin-top: 40rpx;
+  margin-left:20rpx;
+  float: left;
+  position: relative;
+  background-color: gainsboro;
+}
+
+.item-signup {
+  position: absolute;
+}
+
+.item-signup image{
+  width:76rpx;
+  height:42rpx;
+}
+
+.item-img {
+  width: 100%;
+  height: 180rpx;
+}
+
+.item-img image {
+  width: 100%;
+  height: 100%;
+}
+
+.item-title {
+  margin-top: 15rpx;
+  font-size:32rpx;
+  font-family: '微软雅黑';
+}
+
+.item-info{
+  margin-top: 15rpx;
+  display: flex;
+  flex-direction: column;
+  height:40rpx;
+}
+
+.item-price {
+  font-size: 28rpx;
+  font-family: '微软雅黑';
+  color: red;
+}
+
+.item-icon{
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  margin-left: 80%;
+}
+
+.item-icon image {
+  width: 40rpx;
+  height: 40rpx;
 }

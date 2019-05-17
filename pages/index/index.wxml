@@ -4,7 +4,7 @@
   <input disabled placeholder='请输入要搜索的内容' />
 </view>
 
-<swiper class='swiper-img' indicator-dots autoplay='true' interval='5000' bindchange='onImgSwiperChange'>
+<swiper class='swiper-list' indicator-dots autoplay='true' interval='5000' bindchange='onImgSwiperChange'>
   <block wx:for='{{swiperImgUrls}}' wx:key='index'>
     <swiper-item>
       <image src='{{item.url}}' bindtap='tapImgSwiper'/>
@@ -12,24 +12,45 @@
   </block>
 </swiper>
 
-<view class='item-list'>
-  <block wx:for='{{itemList}}' wx:key='index'>
-    <view class='item-view' bindtap='tapToDetails'>
-      <view class="item-signup">
-        <image src="{{item.signupimg}}"></image>
-      </view>
-      <view class='item-img'>
-        <image src='{{item.img}}' />
-      </view>
-      <view class="item-title">
-         <text>{{item.title}}</text>  
-      </view>
-      <view class="item-info">
-        <view class="item-price">￥{{item.price}}</view>
-        <view class="item-icon" bindtap='addToCart'>
-          <image src="{{iconsrc}}"></image>
+<view class='aa'>
+  <view class='title'>
+    <text>产品分类</text>
+  </view>
+  <view class='category-list'>
+    <block wx:for='{{categoryList}}' wx:key='index'>
+      <view class='category-item' bindtap='tapToCategory' data-num='{{item.index}}'>
+        <image class='categoryitem-img' src="{{item.img}}" />
+        <view class='categoryitem-name'>
+          <text>{{item.name}}</text>
         </view>
       </view>
-    </view>
-  </block>
+    </block>
+  </view>
+</view>
+
+<view>
+  <view class='title'>
+    <text>热门商品</text>
+  </view>
+  <view class='goods-list'>
+    <block wx:for='{{goodsList}}' wx:key='index'>
+      <view class='goods-view' bindtap='tapToDetails'>
+        <view class="goods-signup">
+          <image src="{{item.signupimg}}"></image>
+        </view>
+        <view class='goods-img'>
+          <image src='{{item.img}}' />
+        </view>
+        <view class="goods-title">
+          <text>{{item.title}}</text>  
+        </view>
+        <view class="goods-info">
+          <view class="goods-price">￥{{item.price}}</view>
+          <view class="goods-cart" bindtap='addToCart'>
+            <image src="{{iconsrc}}"></image>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
 </view>

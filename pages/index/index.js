@@ -1,7 +1,6 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var isTapCart = false;
 
 Page({
   data: {
@@ -64,7 +63,7 @@ Page({
         index: 1,
         signupimg: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
-        title: '测试课程2',
+        title: '夏令营|西安研学：盛世中华·历史篇章',
         price: '999.00'
       },
       {
@@ -94,8 +93,23 @@ Page({
         img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         title: '测试课程6',
         price: '999.00'
+      },
+      {
+        index: 6,
+        signupimg: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+        img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+        title: '测试课程7',
+        price: '999.00'
       }],
-      iconsrc: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'
+      iconsrc: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+      isCartViewShow: false,
+      animationData: {},
+      cartInfo: {
+        img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+        price: '128.00',
+        stock: '40',
+        choose: '请选择价格 数量'
+      }
   },
   //监听页面加载事件
   onLoad: function () {
@@ -118,9 +132,8 @@ Page({
   //监听轮播图点击事件
   tapImgSwiper: function() {
     //TODO
-    console.log("当前点击的是第" + this.data.swiperImgCurrent + "张图。");
     wx.showToast({
-      title: 'TODO:前往第' + (this.data.swiperImgCurrent + 1) + "页面",
+      title: 'TODO:前往页面' + (this.data.swiperImgCurrent + 1),
       icon: 'none'
     });
   },
@@ -136,39 +149,85 @@ Page({
       wx.stopPullDownRefresh();
     }, 3000);
   },
+  //跳转到商品分类
   tapToCategory: function(e) {
     wx.showToast({
-      title: 'TODO:跳转到第' + (e.currentTarget.dataset.num + 1) + '分类',
+      title: 'TODO:跳转到分类' + (e.currentTarget.dataset.num + 1),
       icon: 'none'
     });
   },
   //查看商品详情
   tapToDetails: function(e) {
     //TODO
-    if(!isTapCart) {
-      console.log("查看商品详情");
-      wx.showToast({
-        title: 'TODO:查看商品详情',
-        icon: 'none'
-      });
-    }
+    wx.showToast({
+      title: 'TODO:查看商品' + (e.currentTarget.dataset.num + 1),
+      icon: 'none'
+    });
   },
-  //商品添加到购物车
-  addToCart: function() {
+  //显示购物车窗口
+  showCartView: function(e) {
     //TODO
-    console.log("加入购物车");
-    isTapCart = true;
+    console.log("显示购物车窗口" + e.currentTarget.dataset.num);
     wx.showLoading({
       title: "loading...",
       mask: true
     });
+
+    var t = this;
+    var animation = wx.createAnimation({
+      duration: 200,
+      timingFunction: 'linear'
+    });
+    animation.translateY(500).step();
+    this.setData({
+      animationData: animation.export(),
+      isCartViewShow: true
+    });
+    wx.hideLoading();
     setTimeout(function() {
-      wx.hideLoading();
-      wx.showToast({
-        title: 'TODO:打开购物车页面',
-        icon: 'none'
+      animation.translateY(0).step();
+      t.setData({
+        animationData: animation.export()
       });
-      isTapCart = false;
-    }, 500);
+    }, 200);
+  },
+  //隐藏购物车窗口
+  hideCartView: function() {
+    var t = this;
+    var animation = wx.createAnimation({
+      duration: 200,
+      timingFunction: 'linear'
+    });
+    animation.translateY(500).step();
+    this.setData({
+      animationData: animation.export()
+    });
+    setTimeout(function() {
+      animation.translateY(0).step();
+      t.setData({
+        animationData: animation.export(),
+        isCartViewShow: false
+      });
+    }, 200);
+  },
+  //商品加入购物车
+  addToCart: function() {
+    console.log("加入购物车");
+  },
+  //立即购买
+  buyNow: function() {
+    console.log("立即购买");
+  },
+  //弹窗屏蔽底层滚动响应的空函数，无须任何处理
+  emptyHandler: function() {
+
+  },
+  //预览图片
+  previewImg: function(e) {
+    var arrImg = [];
+    arrImg[0] = e.currentTarget.dataset.src;
+    wx.previewImage({
+      urls: arrImg
+    });
   }
 })

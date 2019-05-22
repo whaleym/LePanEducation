@@ -1,4 +1,16 @@
 /**index.wxss**/
+.eachblock {
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  background-color: white;
+}
+
+.title {
+  font-size: 30rpx;
+  line-height: 60rpx;
+  text-indent: 30rpx;
+}
+
 .search{
   margin: 20rpx 20rpx auto;
   background-color: white;
@@ -32,14 +44,6 @@
   border-radius: 10rpx;
 }
 
-.title {
-  margin-top: 40rpx;
-  font-size: 30rpx;
-  line-height: 60rpx;
-  text-indent: 30rpx;
-  background-color: white;
-}
-
 .category-list {
   display: flex;
   flex-direction: row;
@@ -50,6 +54,7 @@
 .category-item {
   width:33%;
   margin-top: 20rpx;
+  margin-bottom: 20rpx;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -67,20 +72,39 @@
   text-align: center;
   font-size: 28rpx;
   font-family: '微软雅黑';
-  color: red;
+  color: black;
 }
 
 .goods-list {
-  margin-top: 40rpx;
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.goods-item {
+  position: relative;
+  width:50%;
+  height:350rpx;
+  margin-bottom: 40rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.goods-carticon{
+  position: absolute;
+  right: 40rpx;
+  bottom: 10rpx;
+  z-index: 20;
 }
 
 .goods-view {
-  width:46%;
-  height:320rpx;
-  margin-left:20rpx;
-  margin-bottom: 40rpx;
-  float: left;
-  position: relative;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   background-color: gainsboro;
 }
 
@@ -104,32 +128,113 @@
 }
 
 .goods-title {
-  margin-top: 15rpx;
-  font-size:32rpx;
+  width: 100%;
+  height: 80rpx;
+  overflow:hidden;
+  font-size:28rpx;
   font-family: '微软雅黑';
 }
 
-.goods-info{
-  margin-top: 15rpx;
-  display: flex;
-  flex-direction: column;
-  height:40rpx;
-}
-
-.goods-price {
+.goods-price{
+  width: 100%;
   font-size: 28rpx;
   font-family: '微软雅黑';
+  line-height: 40rpx;
   color: red;
 }
 
-.goods-cart{
-  width: 80rpx;
-  height: 80rpx;
-  position: absolute;
-  margin-left: 80%;
-}
-
-.goods-cart image {
+.goods-carticon image {
   width: 50rpx;
   height: 50rpx;
+}
+
+.maskLayer {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.2;
+  overflow: hidden;
+  z-index: 1000;
+  color: #fff;
+}
+
+.cartview {
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  background: #fff;
+  padding-top: 20rpx;
+}
+
+.infoview {
+  width: 100%;
+  display: flex;
+  margin-bottom: 20rpx;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.infoimg {
+  width: 30%;
+  height: 150rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.infoimg image {
+  width: 150rpx;
+  height: 150rpx;
+  border: 2rpx solid gray;
+}
+
+.infodata {
+  width: 70%;
+  height: 150rpx;
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.infodata-text {
+  width: 100%;
+  font-size: 25rpx;
+}
+
+.line {
+  margin: 0 auto;
+  width: 100%;
+  height: 3rpx;
+  background-color: #d8d8d8;
+}
+
+.selectview {
+  width: 100%;
+  height: 500rpx;
+}
+
+.buttonview {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+}
+
+.cartbutton {
+  width: 50%;
+  line-height: 80rpx;
+  background-color: gray;
+}
+
+.buybutton {
+  width:50%;
+  line-height: 80rpx;
+  background-color: pink;
 }

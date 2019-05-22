@@ -1,9 +1,12 @@
 <!--index.wxml-->
+
+<!-- 搜索框 -->
 <view class='search' bindtap='tapToSearchPage'>
   <icon type='search' size='15'/>
   <input disabled placeholder='请输入要搜索的内容' />
 </view>
 
+<!-- 轮播图 -->
 <swiper class='swiper-list' indicator-dots autoplay='true' interval='5000' bindchange='onImgSwiperChange'>
   <block wx:for='{{swiperImgUrls}}' wx:key='index'>
     <swiper-item>
@@ -12,7 +15,8 @@
   </block>
 </swiper>
 
-<view class='aa'>
+<!-- 产品分类 -->
+<view class='eachblock'>
   <view class='title'>
     <text>产品分类</text>
   </view>
@@ -28,29 +32,56 @@
   </view>
 </view>
 
-<view>
+<!-- 热门商品 -->
+<view class='eachblock'>
   <view class='title'>
     <text>热门商品</text>
   </view>
   <view class='goods-list'>
     <block wx:for='{{goodsList}}' wx:key='index'>
-      <view class='goods-view' bindtap='tapToDetails'>
-        <view class="goods-signup">
-          <image src="{{item.signupimg}}"></image>
+      <view class='goods-item'>
+        <view class="goods-carticon" bindtap='showCartView' data-num='{{item.index}}'>
+          <image src="{{iconsrc}}"></image>
         </view>
-        <view class='goods-img'>
-          <image src='{{item.img}}' />
-        </view>
-        <view class="goods-title">
-          <text>{{item.title}}</text>  
-        </view>
-        <view class="goods-info">
-          <view class="goods-price">￥{{item.price}}</view>
-          <view class="goods-cart" bindtap='addToCart'>
-            <image src="{{iconsrc}}"></image>
+        <view class='goods-view' bindtap='tapToDetails' data-num='{{item.index}}'>
+          <view class="goods-signup">
+            <image src="{{item.signupimg}}"></image>
+          </view>
+          <view class='goods-img'>
+            <image src='{{item.img}}' />
+          </view>
+          <view class="goods-title">
+            <text>{{item.title}}</text>  
+          </view>
+          <view class="goods-price">
+            <text>￥{{item.price}}</text>
           </view>
         </view>
       </view>
     </block>
+  </view>
+</view>
+
+<!-- 购物车弹框 -->
+<view class='maskLayer' catchtouchmove='emptyHandler' hidden='' wx:if="{{isCartViewShow}}" bindtap='hideCartView'></view>
+<view class='cartview' catchtouchmove='emptyHandler' wx:if="{{isCartViewShow}}" animation='{{animationData}}'>
+  <!--商品图片 价格 余量 所选属性-->
+  <view class='infoview'>
+    <view class='infoimg'>
+      <image src='{{cartInfo.img}}' data-src='{{cartInfo.img}}' bindtap='previewImg'/>
+    </view>
+    <view class='infodata'>
+      <view class='infodata-text'>￥{{cartInfo.price}}</view>
+      <view class='infodata-text'>库存{{cartInfo.stock}}件</view>
+      <view class='infodata-text'>{{cartInfo.choose}}</view>
+    </view>
+  </view>
+  <view class='line'></view>
+  <!--商品属性选择区域-->
+  <view class='selectview'></view>
+  <!--加入购物车 立即购买按钮-->
+  <view class='buttonview'>
+    <view class='cartbutton' bindtap='addToCart'>加入购物车</view>
+    <view class='buybutton' bindtap='buyNow'>立即购买</view>
   </view>
 </view>

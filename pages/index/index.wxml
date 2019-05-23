@@ -40,8 +40,8 @@
   <view class='goods-list'>
     <block wx:for='{{goodsList}}' wx:key='index'>
       <view class='goods-item'>
-        <view class="goods-carticon" bindtap='showCartView' data-num='{{item.index}}'>
-          <image src="{{iconsrc}}"></image>
+        <view class="goods-carticon" bindtap='showCartView' data-info='{{item}}'>
+          <image src="{{carticon}}"></image>
         </view>
         <view class='goods-view' bindtap='tapToDetails' data-num='{{item.index}}'>
           <view class="goods-signup">
@@ -71,14 +71,22 @@
       <image src='{{cartInfo.img}}' data-src='{{cartInfo.img}}' bindtap='previewImg'/>
     </view>
     <view class='infodata'>
-      <view class='infodata-text'>￥{{cartInfo.price}}</view>
-      <view class='infodata-text'>库存{{cartInfo.stock}}件</view>
+      <view class='infodata-text'>{{cartInfo.price}}</view>
+      <view class='infodata-text'>{{cartInfo.stock}}</view>
       <view class='infodata-text'>{{cartInfo.choose}}</view>
     </view>
   </view>
   <view class='line'></view>
+
   <!--商品属性选择区域-->
-  <view class='selectview'></view>
+  <view class='selectview'>
+    <scroll-view class='selectscroll' scroll-y>
+      <view style='margin-top: 10rpx; margin-bottom: 10rpx; width: 100%; height: 300rpx;'></view>
+      <view class='shortline'></view>
+      <view style='margin-top: 10rpx; margin-bottom: 10rpx; width: 100%; height: 300rpx;'></view>
+    </scroll-view>
+  </view>
+
   <!--加入购物车 立即购买按钮-->
   <view class='buttonview'>
     <view class='cartbutton' bindtap='addToCart'>加入购物车</view>

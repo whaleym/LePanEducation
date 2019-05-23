@@ -49,65 +49,65 @@ Page({
         index: 5,
         img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         name: '分类6'
-      },
+      }
     ],
     goodsList: [
       {
         index: 0,
         signupimg: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
-        title: '测试课程1',
-        price: '999.00'
+        title: '夏令营|航空小镇',
+        price: '1280.00'
       },
       {
         index: 1,
         signupimg: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         title: '夏令营|西安研学：盛世中华·历史篇章',
-        price: '999.00'
+        price: '2300.00'
       },
       {
         index: 2,
         signupimg: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         title: '测试课程3',
-        price: '999.00'
+        price: '3333.00'
       },
       {
         index: 3,
         signupimg: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         title: '测试课程4',
-        price: '999.00'
+        price: '4444.00'
       },
       {
         index: 4,
         signupimg: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         title: '测试课程5',
-        price: '999.00'
+        price: '5555.00'
       },
       {
         index: 5,
         signupimg: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         title: '测试课程6',
-        price: '999.00'
+        price: '6666.00'
       },
       {
         index: 6,
         signupimg: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         title: '测试课程7',
-        price: '999.00'
+        price: '7777.00'
       }],
-      iconsrc: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+      carticon: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
       isCartViewShow: false,
       animationData: {},
       cartInfo: {
-        img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
-        price: '128.00',
-        stock: '40',
+        img: '',
+        price: '',
+        stock: '',
         choose: '请选择价格 数量'
       }
   },
@@ -117,10 +117,10 @@ Page({
   //点击搜索框
   tapToSearchPage: function() {
     //TODO
-    console.log("TODO:跳转到搜索页面");
-    wx.navigateTo({
-      url: '../test/test',
-    })
+    wx.showToast({
+      title: 'TODO:跳转到搜索页面',
+      icon: 'none'
+    });
   },
   //监听轮播图切换事件
   onImgSwiperChange: function(e) {
@@ -167,13 +167,28 @@ Page({
   //显示购物车窗口
   showCartView: function(e) {
     //TODO
-    console.log("显示购物车窗口" + e.currentTarget.dataset.num);
+    //获取当前点击的商品信息
+    //将商品信息赋值到弹出框
+    //处理弹框动画
+
+    var t = this;
+    var info = e.currentTarget.dataset.info;
+
     wx.showLoading({
       title: "loading...",
       mask: true
     });
 
-    var t = this;
+    this.setData({
+      cartInfo: {
+        img: info.img,
+        price: '￥' + info.price,
+        stock: '库存' + 40 + '件',
+        choose: '请选择价格 数量'
+      }
+    });
+
+    //处理弹出动画
     var animation = wx.createAnimation({
       duration: 200,
       timingFunction: 'linear'
@@ -212,15 +227,22 @@ Page({
   },
   //商品加入购物车
   addToCart: function() {
-    console.log("加入购物车");
+    //TODO
+    wx.showToast({
+      title: 'TODO:加入购物车',
+      icon: 'none'
+    });
   },
   //立即购买
   buyNow: function() {
-    console.log("立即购买");
+    //TODO
+    wx.showToast({
+      title: 'TODO:立即购买',
+      icon: 'none'
+    });
   },
   //弹窗屏蔽底层滚动响应的空函数，无须任何处理
   emptyHandler: function() {
-
   },
   //预览图片
   previewImg: function(e) {

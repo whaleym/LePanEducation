@@ -71,8 +71,8 @@
       <image src='{{cartInfo.img}}' data-src='{{cartInfo.img}}' bindtap='previewImg'/>
     </view>
     <view class='infodata'>
-      <view class='infodata-text'>{{cartInfo.price}}</view>
-      <view class='infodata-text'>{{cartInfo.stock}}</view>
+      <view class='infodata-text'>￥{{cartInfo.price}}</view>
+      <view class='infodata-text'>库存{{cartInfo.stock}}件</view>
       <view class='infodata-text'>{{cartInfo.choose}}</view>
     </view>
   </view>
@@ -81,9 +81,38 @@
   <!--商品属性选择区域-->
   <view class='selectview'>
     <scroll-view class='selectscroll' scroll-y>
-      <view style='margin-top: 10rpx; margin-bottom: 10rpx; width: 100%; height: 300rpx;'></view>
-      <view class='shortline'></view>
-      <view style='margin-top: 10rpx; margin-bottom: 10rpx; width: 100%; height: 300rpx;'></view>
+      <block wx:for='{{cartInfo.chooseList}}' wx:key='id'>
+        <view class='selectitem'>
+          <view class='selectitem-title'>{{item.title}}</view>
+          <view class='selectitem-content'>
+            <block wx:for='{{item.dataList}}' wx:key='id'>
+              <view class='{{item.status?"selected":"unselected"}}' bindtap='cartSelected' data-num='{{item.id}}' data-groupid='{{item.groupid}}'>
+                <text class='contenttext'>{{item.content}}</text>
+              </view>
+            </block>
+          </view>
+        </view>
+        <view class='shortline'></view>
+      </block>
+      <!-- <view class='selectitem'>
+        <view class='selectitem-title'>日期</view>
+        <view class='selectitem-content'>
+          <block wx:for='{{cartInfo.choosedatelist}}' wx:key='id'>
+            <view class='{{item.status?"selected":"unselected"}}' bindtap='selectDate' data-num='{{item.id}}'>
+              <text class='contenttext'>{{item.title}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+      <view class='shortline'></view> -->
+      <view class='selectitem'>
+        <view class='stepper'>
+          <text class="{{cartInfo.choosenum <= 1 ? 'disabled' : 'normal'}}" bindtap='subChooseNum'>-</text>
+          <input type='number' value='{{cartInfo.choosenum}}' bindblur='inputChooseNum' bindconfirm='inputChooseNum'/>
+          <text class="{{cartInfo.choosenum >= cartInfo.stock ? 'disabled' : 'normal'}}" bindtap='addChooseNum'>+</text>
+        </view>
+        <view class='selectitem-title'>数量</view>
+      </view>
     </scroll-view>
   </view>
 

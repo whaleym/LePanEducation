@@ -106,14 +106,68 @@ Page({
       animationData: {},
       cartInfo: {
         img: '',
-        price: '',
-        stock: '',
-        choose: '请选择价格 数量'
+        price: 0,
+        stock: 0,
+        choose: '请选择价格 数量',
+        choosenum: 1,
+        choosedata: [],
+        chooseList: [
+          {
+            id: 0,
+            title: '团体人数',
+            dataList: [
+              {
+                id: 0,
+                groupid: 0,
+                content: '原价',
+                status: false
+              },
+              {
+                id: 1,
+                groupid: 0,
+                content: '单人报名',
+                status: false
+              },
+              {
+                id: 2,
+                groupid: 0,
+                content: '3人及以上报团',
+                status: false
+              }
+            ]
+          },
+          {
+            id: 1,
+            title: '营期',
+            dataList: [
+              {
+                id: 0,
+                groupid: 1,
+                content: '第一期：06月29日-07月03日',
+                status: false
+              },
+              {
+                id: 1,
+                groupid: 1,
+                content: '第二期：07月08日-07月12日',
+                status: false
+              },
+              {
+                id: 2,
+                groupid: 1,
+                content: '第三期：08月19日-08月23日',
+                status: false
+              }
+            ]
+          }
+        ]
       }
   },
+
   //监听页面加载事件
   onLoad: function () {
   },
+
   //点击搜索框
   tapToSearchPage: function() {
     //TODO
@@ -122,6 +176,7 @@ Page({
       icon: 'none'
     });
   },
+
   //监听轮播图切换事件
   onImgSwiperChange: function(e) {
     //当轮播图切换图片时，标记当前swiper下标
@@ -129,6 +184,7 @@ Page({
       swiperImgCurrent: e.detail.current
     });
   },
+
   //监听轮播图点击事件
   tapImgSwiper: function() {
     //TODO
@@ -137,6 +193,7 @@ Page({
       icon: 'none'
     });
   },
+
   //监听页面下拉刷新事件
   onPullDownRefresh: function() {
     //TODO
@@ -149,6 +206,7 @@ Page({
       wx.stopPullDownRefresh();
     }, 3000);
   },
+
   //跳转到商品分类
   tapToCategory: function(e) {
     wx.showToast({
@@ -156,6 +214,7 @@ Page({
       icon: 'none'
     });
   },
+
   //查看商品详情
   tapToDetails: function(e) {
     //TODO
@@ -164,13 +223,12 @@ Page({
       icon: 'none'
     });
   },
+
   //显示购物车窗口
   showCartView: function(e) {
     //TODO
     //获取当前点击的商品信息
     //将商品信息赋值到弹出框
-    //处理弹框动画
-
     var t = this;
     var info = e.currentTarget.dataset.info;
 
@@ -179,13 +237,14 @@ Page({
       mask: true
     });
 
+    var cartInfo = this.data.cartInfo;
+    cartInfo.img = info.img;
+    cartInfo.price = info.price;
+    cartInfo.stock = 4;
+    cartInfo.choose = '请选择价格 数量';
+    cartInfo.choosenum = 1;
     this.setData({
-      cartInfo: {
-        img: info.img,
-        price: '￥' + info.price,
-        stock: '库存' + 40 + '件',
-        choose: '请选择价格 数量'
-      }
+      cartInfo: cartInfo
     });
 
     //处理弹出动画
@@ -206,6 +265,7 @@ Page({
       });
     }, 200);
   },
+
   //隐藏购物车窗口
   hideCartView: function() {
     var t = this;
@@ -225,6 +285,54 @@ Page({
       });
     }, 200);
   },
+
+  //增加所选商品数量
+  addChooseNum: function() {
+    var info = this.data.cartInfo;
+
+    if(info.choosenum >= info.stock)
+      return;
+
+    info.choosenum++;
+    this.setData({
+      cartInfo: info
+    });
+  },
+
+  //减少所选商品数量
+  subChooseNum: function() {
+    var info = this.data.cartInfo;
+    
+    if(info.choosenum <= 1)
+      return;
+
+    info.choosenum--;
+    this.setData({
+      cartInfo: info
+    });
+  },
+
+  //监听输入商品数量事件
+  inputChooseNum: function(e) {
+    var info = this.data.cartInfo;
+
+    if(e.detail.value > info.stock) {
+      wx.showToast({
+        title: '购买数量超出库存',
+        icon: 'none'
+      });
+      info.choosenum = info.stock;
+      this.setData({
+        cartInfo: info
+      });
+    } else if (e.detail.value < 1) {
+      info.choosenum = 1;
+      this.setData({
+        cartInfo: info
+      });
+    }
+  },
+
   //商品加入购物车
   addToCart: function() {
     //TODO
@@ -233,6 +341,7 @@ Page({
       icon: 'none'
     });
   },
+
   //立即购买
   buyNow: function() {
     //TODO
@@ -241,9 +350,11 @@ Page({
       icon: 'none'
     });
   },
+
   //弹窗屏蔽底层滚动响应的空函数，无须任何处理
   emptyHandler: function() {
   },
+
   //预览图片
   previewImg: function(e) {
     var arrImg = [];
@@ -251,5 +362,88 @@ Page({
     wx.previewImage({
       urls: arrImg
     });
+  },
+
+  //购物车内选择日期
+  cartSelected: function(e) {
+    var dataset = e.currentTarget.dataset;
+    var cartdata = this.data.cartInfo;
+    for(var i in cartdata.chooseList) {
+      var temp = cartdata.chooseList[i];
+      if(dataset.groupid != temp.id)
+        continue;
+
+      for(var j in temp.dataList) {
+        var temp1 = temp.dataList[j];
+        if(temp1.id == dataset.num) {
+          temp1.status = !temp1.status;
+          this.setCartSelectData(i, j, temp1.status);
+        } else {
+          temp1.status = false;
+        }
+      }
+    }
+
+    this.setData({
+      cartInfo: cartdata
+    });
+    this.updateCartView();
+  },
+
+  //设置所选中的信息
+  setCartSelectData: function(groupid, dataid, isSeleted) {
+    var cartInfo = this.data.cartInfo;
+    var choosedata = cartInfo.choosedata;
+
+    if(isSeleted) {
+      choosedata.push({
+        groupid: groupid,
+        dataid: dataid
+      });
+      choosedata.sort(function(a, b) {
+        return a.groupid - b.groupid;
+      })
+    } else {
+      for(var i in choosedata) {
+        if(choosedata[i].groupid == groupid && choosedata[i].dataid == dataid) {
+          choosedata.splice(i, 1);
+        }
+      }
+    }
+
+    this.setData({
+      cartInfo: cartInfo
+    });
+  },
+
+  //更新购物车弹框显示
+  updateCartView: function() {
+    var cartInfo = this.data.cartInfo;
+
+    if(cartInfo.choosedata.length == 0) {
+      console.log("没有选择，显示初始内容");
+      return;
+    }
+
+    for(var i in cartInfo.choosedata) {
+      console.log(cartInfo.choosedata[i].groupid, cartInfo.choosedata[i].dataid);
+    }
+  },
+
+  //根据groupid和dataid获取chooseList对应的数据
+  getChooseDataList: function(groupid, dataid) {
+    var chooseList = this.data.cartInfo.chooseList;
+    for(var i in chooseList) {
+      if(groupid != chooseList[i].id)
+        continue;
+      for(var j in chooseList[i].dataList) {
+        var temp = chooseList[i].dataList;
+        if(dataid == temp[j].id) {
+          return temp[j].content;
+        }
+      }
+    }
   }
+
+
 })

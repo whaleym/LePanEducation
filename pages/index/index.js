@@ -4,20 +4,8 @@ const app = getApp()
 
 Page({
   data: {
-    swiperImgUrls: [
-      {
-        index: 0,
-        url: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'
-      },
-      {
-        index: 1,
-        url: 'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640'
-      },
-      {
-        index: 2,
-        url: 'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
-      }
-    ],
+    isLoadSuccess: false,
+    swiperImgUrls: [],
     swiperImgCurrent: 0,
     categoryList: [
       {
@@ -100,72 +88,99 @@ Page({
         img: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
         title: '测试课程7',
         price: '7777.00'
-      }],
-      carticon: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
-      isCartViewShow: false,
-      animationData: {},
-      cartInfo: {
-        img: '',
-        price: 0,
-        stock: 0,
-        choose: '请选择价格 数量',
-        choosenum: 1,
-        choosedata: [],
-        chooseList: [
-          {
-            id: 0,
-            title: '团体人数',
-            dataList: [
-              {
-                id: 0,
-                groupid: 0,
-                content: '原价',
-                status: false
-              },
-              {
-                id: 1,
-                groupid: 0,
-                content: '单人报名',
-                status: false
-              },
-              {
-                id: 2,
-                groupid: 0,
-                content: '3人及以上报团',
-                status: false
-              }
-            ]
-          },
-          {
-            id: 1,
-            title: '营期',
-            dataList: [
-              {
-                id: 0,
-                groupid: 1,
-                content: '第一期：06月29日-07月03日',
-                status: false
-              },
-              {
-                id: 1,
-                groupid: 1,
-                content: '第二期：07月08日-07月12日',
-                status: false
-              },
-              {
-                id: 2,
-                groupid: 1,
-                content: '第三期：08月19日-08月23日',
-                status: false
-              }
-            ]
-          }
-        ]
       }
+    ],
+    carticon: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+    isCartViewShow: false,
+    animationData: {},
+    cartInfo: {
+      img: '',
+      price: 0,
+      stock: 0,
+      choose: '请选择价格 数量',
+      choosenum: 1,
+      choosedata: [],
+      chooseList: [
+        {
+          id: 0,
+          title: '团体人数',
+          dataList: [
+            {
+              id: 0,
+              groupid: 0,
+              content: '原价',
+              status: false
+            },
+            {
+              id: 1,
+              groupid: 0,
+              content: '单人报名',
+              status: false
+            },
+            {
+              id: 2,
+              groupid: 0,
+              content: '3人及以上报团',
+              status: false
+            }
+          ]
+        },
+        {
+          id: 1,
+          title: '营期',
+          dataList: [
+            {
+              id: 0,
+              groupid: 1,
+              content: '第一期：06月29日-07月03日',
+              status: false
+            },
+            {
+              id: 1,
+              groupid: 1,
+              content: '第二期：07月08日-07月12日',
+              status: false
+            },
+            {
+              id: 2,
+              groupid: 1,
+              content: '第三期：08月19日-08月23日',
+              status: false
+            }
+          ]
+        }
+      ]
+    }
   },
 
   //监听页面加载事件
   onLoad: function () {
+    wx.showLoading({
+      title: 'loading...',
+      mask: true
+    });
+
+    wx.request({
+      url: 'http://www.zhouxqyy.com/yuximin/PageConfigs/indexConfigs.json',
+      success: res => {
+        console.log(res.data);
+        if(!res.data.swiperImgUrls) {
+          console.log("获取数据失败，请重试！！！");
+          return;
+        }
+
+        this.setData({
+          isLoadSuccess: true,
+          swiperImgUrls: res.data.swiperImgUrls
+        });
+      },
+      fail: err => {
+        console.log(err);
+      },
+      complete: res => {
+        wx.hideLoading();
+      }
+    });
   },
 
   //点击搜索框
@@ -242,7 +257,15 @@ Page({
     cartInfo.price = info.price;
     cartInfo.stock = 4;
     cartInfo.choose = '请选择价格 数量';
+    cartInfo.choosedata = [];
     cartInfo.choosenum = 1;
+    for(var i in cartInfo.chooseList) {
+      var temp = cartInfo.chooseList[i];
+      for(var j in temp.dataList) {
+        temp.dataList[j].status = false;
+      }
+    }
+
     this.setData({
       cartInfo: cartInfo
     });
@@ -364,7 +387,7 @@ Page({
     });
   },
 
-  //购物车内选择日期
+  //购物车内选择商品类型
   cartSelected: function(e) {
     var dataset = e.currentTarget.dataset;
     var cartdata = this.data.cartInfo;
@@ -396,6 +419,9 @@ Page({
     var choosedata = cartInfo.choosedata;
 
     if(isSeleted) {
+      //去除数组中相同groupid的项
+      this.deleteSameItemInArray(groupid, choosedata);
+
       choosedata.push({
         groupid: groupid,
         dataid: dataid
@@ -414,6 +440,15 @@ Page({
     this.setData({
       cartInfo: cartInfo
     });
+  },
+
+  //去除数组中相同groupid的项
+  deleteSameItemInArray: function(key, array) {
+    for(var i in array) {
+      if(array[i].groupid == key) {
+        array.splice(i, 1);
+      }
+    }
   },
 
   //更新购物车弹框显示
